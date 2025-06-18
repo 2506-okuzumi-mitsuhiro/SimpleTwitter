@@ -190,9 +190,9 @@ public class UserDao {
     	        // 実践課題 その①修正ヵ所
     	        // パスワードの入力がある場合はパスワードに関するSQL文を追加
     	        String userPassword = user.getPassword();
-    			if (!StringUtils.isBlank(userPassword)) {
-    				sql.append("    password = ?, ");
-    			}
+    	        if (!StringUtils.isBlank(userPassword)) {
+    	        	sql.append("    password = ?, ");
+    	        }
 
     	        sql.append("    description = ?, ");
     	        sql.append("    updated_date = CURRENT_TIMESTAMP ");
@@ -210,10 +210,10 @@ public class UserDao {
     	        	ps.setString(4, user.getPassword());
     	        	ps.setString(5, user.getDescription());
     	        	ps.setInt(6, user.getId());
-    			} else {
-    				ps.setString(4, user.getDescription());
-        	        ps.setInt(5, user.getId());
-    			}
+    	        } else {
+    	        	ps.setString(4, user.getDescription());
+    	        	ps.setInt(5, user.getId());
+    	        }
 
     	        int count = ps.executeUpdate();
     	        if (count == 0) {

@@ -126,7 +126,7 @@ public class UserService {
         	String userPassword = user.getPassword();
         	if (!StringUtils.isBlank(userPassword)) {
         		userPassword = CipherUtil.encrypt(userPassword);
-			}
+        	}
 
             user.setPassword(userPassword);
 
