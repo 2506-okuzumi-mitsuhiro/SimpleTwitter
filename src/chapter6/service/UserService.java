@@ -151,4 +151,30 @@ public class UserService {
 			close(connection);
 		}
 	}
+
+	// 実践課題 その③修正ヵ所
+	// 受け取ったアカウント情報をDaoに渡しデータ抽出を行い、結果をUserで返す
+	// 重複あり：抽出結果
+	// 重複なし：null
+	public User select(String account) {
+		Connection connection = null;
+
+		try {
+			connection = getConnection();
+			User user = new UserDao().select(connection, account);
+			commit(connection);
+
+			return user;
+		} catch (RuntimeException e) {
+			rollback(connection);
+
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+
+			throw e;
+		} finally {
+			close(connection);
+		}
+	}
 }

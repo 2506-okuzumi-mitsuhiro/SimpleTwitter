@@ -91,9 +91,17 @@ public class SignUpServlet extends HttpServlet {
 		String account = user.getAccount();
 		String password = user.getPassword();
 		String email = user.getEmail();
+		// 実践課題 その③修正ヵ所
+		User dupulicationUser = new UserService().select(account);
 
 		if (!StringUtils.isEmpty(name) && (20 < name.length())) {
 			errorMessages.add("名前は20文字以下で入力してください");
+		}
+
+		// 実践課題 その③修正ヵ所
+		// アカウント重複確認
+		if(dupulicationUser != null){
+			errorMessages.add("すでに存在するアカウントです");
 		}
 
 		if (StringUtils.isEmpty(account)) {

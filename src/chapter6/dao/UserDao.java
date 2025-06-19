@@ -235,4 +235,35 @@ public class UserDao {
 			close(ps);
 		}
 	}
+
+	// 実践課題 その③修正ヵ所
+	// 受け取ったアカウント情報を元にデータ抽出を行い、結果をUserで返す
+	// 重複あり：抽出結果
+	// 重複なし：null
+	public User select(Connection connection, String account) {
+		PreparedStatement ps = null;
+
+		try {
+			String sql = "SELECT * FROM users WHERE account = ?";
+
+			ps = connection.prepareStatement(sql);
+			ps.setString(1, account);
+
+			ResultSet rs = ps.executeQuery();
+
+			List<User> users = toUsers(rs);
+
+			if (users.isEmpty()) {
+				return null;
+			} else if (2 <= users.size()) {
+				throw new IllegalStateException("ユーザーが重複しています");
+			} else {
+				return users.get(0);
+			}
+		} catch (SQLException e) {
+			throw new SQLRuntimeException(e);
+		} finally {
+			close(ps);
+		}
+	}
 }
