@@ -98,4 +98,31 @@ public class MessageService {
 			close(connection);
 		}
 	}
+
+	// WEB開発基礎課題（つぶやきの削除）
+	// 引数で受け取ったmessageIdをDaoに渡す
+	public void delete(int messageId) {
+
+		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
+		Connection connection = null;
+		try {
+			connection = getConnection();
+			new MessageDao().delete(connection, messageId);
+			commit(connection);
+		} catch (RuntimeException e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+
+			throw e;
+		} catch (Error e) {
+			rollback(connection);
+			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
+
+			throw e;
+		} finally {
+			close(connection);
+		}
+	}
 }

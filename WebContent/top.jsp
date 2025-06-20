@@ -65,8 +65,22 @@
 							</span>
 							<span class="name"><c:out value="${message.name}" /></span>
 						</div>
-						<div class="text"><c:out value="${message.text}" /></div>
-						<div class="date"><fmt:formatDate value="${message.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" /></div>
+						<div class="text">
+							<c:out value="${message.text}" />
+						</div>
+						<div class="date">
+							<fmt:formatDate value="${message.createdDate}" pattern="yyyy/MM/dd HH:mm:ss" />
+						</div>
+
+						<!-- WEB開発基礎課題（つぶやきの削除） -->
+						<c:if test="${loginUser.id == message.userId}">
+							<div class="form-area">
+								<form action="deleteMessage" method="post">
+									<input type="submit" value="削除">
+									<input type="hidden" name="deleteMessageId" value="${message.id}">
+								</form>
+							</div>
+						</c:if>
 					</div>
 				</c:forEach>
 			</div>
