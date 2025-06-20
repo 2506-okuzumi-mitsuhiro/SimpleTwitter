@@ -73,8 +73,14 @@
 						</div>
 
 						<!-- WEB開発基礎課題（つぶやきの削除） -->
+						<!-- WEB開発基礎課題（つぶやきの編集） -->
 						<c:if test="${loginUser.id == message.userId}">
 							<div class="form-area">
+								<form action="edit" method="get">
+									<input type="submit" value="編集">
+									<input type="hidden" name="editMessageId" value="${message.id}">
+								</form>
+
 								<form action="deleteMessage" method="post">
 									<input type="submit" value="削除">
 									<input type="hidden" name="deleteMessageId" value="${message.id}">
