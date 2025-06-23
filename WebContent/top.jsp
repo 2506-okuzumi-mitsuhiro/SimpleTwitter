@@ -87,6 +87,16 @@
 								</form>
 							</div>
 						</c:if>
+						
+						<!-- WEB開発基礎課題（つぶやきの返信） -->
+						<c:if test="${ isShowMessageForm }">
+							<form action="comment" method="post">
+								<textarea name="comment" cols="100" rows="5" class="tweet-box"></textarea>
+								<br />
+								<input type="submit" value="返信">
+								<input type="hidden" name="commentMessageId" value="${message.id}">
+							</form>
+						</c:if>
 					</div>
 				</c:forEach>
 			</div>

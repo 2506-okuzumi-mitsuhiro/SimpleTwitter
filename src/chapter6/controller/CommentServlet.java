@@ -1,0 +1,93 @@
+package chapter6.controller;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Logger;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+
+import chapter6.beans.Comment;
+import chapter6.beans.User;
+import chapter6.logging.InitApplication;
+import chapter6.service.CommentService;
+
+// WEB開発基礎課題（つぶやきの返信）
+@WebServlet(urlPatterns = { "/comment" })
+public class CommentServlet extends HttpServlet {
+
+	/**
+	* ロガーインスタンスの生成
+	*/
+	Logger log = Logger.getLogger("twitter");
+
+	/**
+	* デフォルトコンストラクタ
+	* アプリケーションの初期化を実施する。
+	*/
+	public CommentServlet() {
+		InitApplication application = InitApplication.getInstance();
+		application.init();
+	}
+
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws IOException, ServletException {
+
+		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
+		List<String> errorMessages = new ArrayList<String>();
+
+		String text = request.getParameter("comment");
+		if (!isValid(text, errorMessages)) {
+			request.setAttribute("errorMessages", errorMessages);
+			response.sendRedirect("./");
+
+			return;
+		}
+
+		Comment comment = getComment(request);
+
+		new CommentService().insert(comment);
+		response.sendRedirect("./");
+	}
+
+	private Comment getComment(HttpServletRequest request) throws IOException, ServletException {
+
+		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
+		Comment comment = new Comment();
+		comment.setText(request.getParameter("comment"));
+		User user = (User) request.getSession().getAttribute("loginUser");
+		comment.setUserId(user.getId());
+		comment.setMessageId(Integer.parseInt(request.getParameter("commentMessageId")));
+
+		return comment;
+	}
+
+	private boolean isValid(String text, List<String> errorMessages) {
+
+		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
+		if (StringUtils.isBlank(text)) {
+			errorMessages.add("メッセージを入力してください");
+		} else if (140 < text.length()) {
+			errorMessages.add("140文字以下で入力してください");
+		}
+
+		if (errorMessages.size() != 0) {
+			return false;
+		}
+
+		return true;
+	}
+}
