@@ -157,6 +157,10 @@ public class UserService {
 	// 重複あり：抽出結果
 	// 重複なし：null
 	public User select(String account) {
+
+		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
 		Connection connection = null;
 
 		try {
@@ -167,10 +171,12 @@ public class UserService {
 			return user;
 		} catch (RuntimeException e) {
 			rollback(connection);
+			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 
 			throw e;
 		} catch (Error e) {
 			rollback(connection);
+			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 
 			throw e;
 		} finally {

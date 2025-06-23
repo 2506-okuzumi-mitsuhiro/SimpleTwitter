@@ -128,6 +128,10 @@ public class MessageService {
 
 	// WEB開発基礎課題（つぶやきの編集）
 	public Message select(int editMessagesId) {
+
+		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
+				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
+
 		Connection connection = null;
 
 		try {
@@ -138,10 +142,12 @@ public class MessageService {
 			return message;
 		} catch (RuntimeException e) {
 			rollback(connection);
+			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 
 			throw e;
 		} catch (Error e) {
 			rollback(connection);
+			log.log(Level.SEVERE, new Object(){}.getClass().getEnclosingClass().getName() + " : " + e.toString(), e);
 
 			throw e;
 		} finally {

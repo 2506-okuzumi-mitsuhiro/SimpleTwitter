@@ -113,6 +113,10 @@ public class MessageDao {
 			ResultSet rs = ps.executeQuery();
 
 			List<Message> messages = toMessages(rs);
+			
+			if(messages.isEmpty()) {
+				return null;
+			}
 
 			return messages.get(0);
 		} catch (SQLException e) {

@@ -35,9 +35,9 @@
 		</c:if>
 
 		<div class="form-area">
-			<form action="editMessages" method="post">
+			<form action="edit" method="post">
 				いま、どうしてる？<br />
-				<textarea name="editMessagesText" cols="100" rows="5" class="tweet-box"><c:out value="${editMessage.text}" /></textarea>
+				<textarea name="editMessageText" cols="100" rows="5" class="tweet-box"><c:out value="${editMessage.text}" /></textarea>
 				<br />
 				<input type="submit" value="更新">（140文字まで）
 				<input type="hidden" name="editMessageId" value="${editMessage.id}">
