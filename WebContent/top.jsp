@@ -44,7 +44,7 @@
 			<!-- WEB開発基礎課題（つぶやきの絞り込み） -->
 			<div class="date">
 				<form action="./" method="get">
-					日付：<input type="date" name="start"> ～ <input type="date" name="end">
+					日付：<input type="date" name="start" value="${start}"> ～ <input type="date" name="end" value="${end}">
 					<input type="submit" value="絞込">
 				</form>
 			</div>

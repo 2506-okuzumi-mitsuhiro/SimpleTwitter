@@ -57,6 +57,11 @@ public class TopServlet extends HttpServlet {
 		String inputEndDated = request.getParameter("end");
 
 		List<UserMessage> messages = new MessageService().select(userId, inputStartDate, inputEndDated);
+
+		// WEB開発基礎課題（つぶやきの絞り込み）
+		request.setAttribute("start", inputStartDate);
+		request.setAttribute("end", inputEndDated);
+
 		request.setAttribute("messages", messages);
 
 		// WEB開発基礎課題（つぶやきの返信）

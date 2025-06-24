@@ -10,6 +10,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 
@@ -43,11 +44,12 @@ public class CommentServlet extends HttpServlet {
 		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
 				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
 
+		HttpSession session = request.getSession();
 		List<String> errorMessages = new ArrayList<String>();
 
 		String text = request.getParameter("comment");
 		if (!isValid(text, errorMessages)) {
-			request.setAttribute("errorMessages", errorMessages);
+			session.setAttribute("errorMessages", errorMessages);
 			response.sendRedirect("./");
 
 			return;
