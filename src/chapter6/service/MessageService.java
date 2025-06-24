@@ -98,8 +98,8 @@ public class MessageService {
 			}else {
 				// 現在時刻の取得
 				Date nowDate = new Date();
-				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-				endDated = sdf1.format(nowDate);
+				SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				endDated = dateFormat.format(nowDate);
 			}
 
 			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM, startDate, endDated);
