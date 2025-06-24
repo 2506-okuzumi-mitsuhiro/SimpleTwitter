@@ -41,6 +41,14 @@
 				<c:remove var="errorMessages" scope="session" />
 			</c:if>
 
+			<!-- WEB開発基礎課題（つぶやきの絞り込み） -->
+			<div class="date">
+				<form action="./" method="get">
+					日付：<input type="date" name="start"> ～ <input type="date" name="end">
+					<input type="submit" value="絞込">
+				</form>
+			</div>
+
 			<div class="form-area">
 				<c:if test="${ isShowMessageForm }">
 					<form action="message" method="post">

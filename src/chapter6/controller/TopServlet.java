@@ -52,7 +52,11 @@ public class TopServlet extends HttpServlet {
 		// 表示させたいユーザのIDをMessageService().selectに渡すよう修正
 		String userId = request.getParameter("user_id");
 
-		List<UserMessage> messages = new MessageService().select(userId);
+		// WEB開発基礎課題（つぶやきの絞り込み）
+		String inputStartDate = request.getParameter("start");
+		String inputEndDated = request.getParameter("end");
+
+		List<UserMessage> messages = new MessageService().select(userId, inputStartDate, inputEndDated);
 		request.setAttribute("messages", messages);
 
 		// WEB開発基礎課題（つぶやきの返信）

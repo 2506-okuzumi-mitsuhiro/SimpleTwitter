@@ -4,6 +4,8 @@ import static chapter6.utils.CloseableUtil.*;
 import static chapter6.utils.DBUtil.*;
 
 import java.sql.Connection;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,9 +60,10 @@ public class MessageService {
 		}
 	}
 
+	// WEB開発基礎課題（つぶやきの絞り込み）
 	// 実践課題 その②修正ヵ所
 	// 表示するユーザのIDを引数として追加
-	public List<UserMessage> select(String userId) {
+	public List<UserMessage> select(String userId, String inputStartDate, String inputEndDated) {
 
 		log.info(new Object(){}.getClass().getEnclosingClass().getName() +
 				" : " + new Object(){}.getClass().getEnclosingMethod().getName());
@@ -80,7 +83,26 @@ public class MessageService {
 				id = Integer.parseInt(userId);
 			}
 
-			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM);
+			// WEB開発基礎課題（つぶやきの絞り込み）
+			String startDate = null;
+			String endDated = null;
+
+			if(!StringUtils.isBlank(inputStartDate)) {
+				startDate = inputStartDate + " 00:00:00";
+			}else {
+				startDate = "2020-01-01 00:00:00";
+			}
+
+			if(!StringUtils.isBlank(inputEndDated)) {
+				endDated = inputEndDated + " 23:59:59";
+			}else {
+				// 現在時刻の取得
+				Date nowDate = new Date();
+				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+				endDated = sdf1.format(nowDate);
+			}
+
+			List<UserMessage> messages = new UserMessageDao().select(connection, id, LIMIT_NUM, startDate, endDated);
 			commit(connection);
 
 			return messages;
